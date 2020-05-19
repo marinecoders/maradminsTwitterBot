@@ -3,6 +3,8 @@
 
 import feedparser
 from pathlib import Path
+from getlatesttweet import getLatestTweet
+from accesstwitter import accessTwitter
 
 
 class aTweet:
@@ -13,12 +15,15 @@ class aTweet:
 
 def parseIt():
     # TODO: make this generic...
-    projectPath = Path('/Users/Marc/Documents/maradminsTwitterBot/lib')
+    # projectPath = Path('/Users/Marc/Documents/maradminsTwitterBot/lib')
 
-    lastTweetFile = projectPath / "lastTweet.txt"
+    # lastTweetFile = projectPath / "lastTweet.txt"
 
-    lastTweet = open(lastTweetFile, 'r+')
-    lines = lastTweet.readlines()
+    # lastTweet = open(lastTweetFile, 'r+')
+    # lines = lastTweet.readlines()
+
+    api = accessTwitter()
+    tweetText = getLatestTweet(api).splitLines()
 
     # Get the RSS page
     maradminPage = feedparser.parse('https://www.marines.mil/DesktopModules'
@@ -28,7 +33,7 @@ def parseIt():
     toReturn = []
 
     for entry in maradminPage.entries:
-        if not (entry.title == lines[0].strip()):
+        if not (entry.title == tweetText[2].strip()):
             if (len(entry.title) > 80):
                 toReturn.append(aTweet(entry.title[0:75] + "...", entry.link))
             else:
@@ -39,4 +44,4 @@ def parseIt():
     lastTweet.seek(0)
     lastTweet.write(maradminPage.entries[0].title)
 
-    return toReturn
+    return toReturn, api
