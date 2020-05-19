@@ -2,7 +2,6 @@
 # and then passes dict of more recent tweets back to main.
 
 import feedparser
-from pathlib import Path
 from getlatesttweet import getLatestTweet
 from accesstwitter import accessTwitter
 
@@ -14,13 +13,6 @@ class aTweet:
 
 
 def parseIt():
-    # TODO: make this generic...
-    # projectPath = Path('/Users/Marc/Documents/maradminsTwitterBot/lib')
-
-    # lastTweetFile = projectPath / "lastTweet.txt"
-
-    # lastTweet = open(lastTweetFile, 'r+')
-    # lines = lastTweet.readlines()
 
     api = accessTwitter()
     tweetText = getLatestTweet(api).splitLines()
@@ -40,8 +32,5 @@ def parseIt():
                 toReturn.append(aTweet(entry.title, entry.link))
         else:
             break
-
-    lastTweet.seek(0)
-    lastTweet.write(maradminPage.entries[0].title)
 
     return toReturn, api
