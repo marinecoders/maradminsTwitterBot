@@ -2,8 +2,8 @@
 # and then passes dict of more recent tweets back to main.
 
 import feedparser
-from getlatesttweet import getLatestTweet
-from accesstwitter import accessTwitter
+from lib.getlatesttweet import getLatestTweet
+from lib.accesstwitter import accessTwitter
 
 
 class aTweet:
@@ -15,7 +15,7 @@ class aTweet:
 def parseIt():
 
     api = accessTwitter()
-    tweetText = getLatestTweet(api).splitLines()
+    tweetText = getLatestTweet(api).splitlines()
 
     # Get the RSS page
     maradminPage = feedparser.parse('https://www.marines.mil/DesktopModules'
@@ -25,7 +25,7 @@ def parseIt():
     toReturn = []
 
     for entry in maradminPage.entries:
-        if not (entry.title == tweetText[2].strip()):
+        if not (entry.title[0:50] == tweetText[2].strip()[0:50]):
             if (len(entry.title) > 80):
                 toReturn.append(aTweet(entry.title[0:75] + "...", entry.link))
             else:

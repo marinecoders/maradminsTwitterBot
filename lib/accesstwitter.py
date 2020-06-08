@@ -15,8 +15,7 @@ def accessTwitter():
     # Authehnticate to twitter and create API object
     auth = tweepy.OAuthHandler(consumerKey, consumerSecret)
     auth.set_access_token(accessToken, accessTokenSecret)
-    api = tweepy.API(auth, wait_on_rate_limit=True,
-                     wait_on_rate_limit_notify=True)
+    api = tweepy.API(auth)
 
     # Verify creds
     try:
